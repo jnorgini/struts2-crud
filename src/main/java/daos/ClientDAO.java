@@ -1,6 +1,10 @@
 package daos;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +30,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM cliente";
+			String sql = "SELECT * FROM client";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -51,7 +55,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "INSERT INTO client (id, name, email VALUES (NULL, '" + client.getName() + "','"
+			String sql = "INSERT INTO client (id, nome, email) VALUES (NULL, '" + client.getName() + "','"
 					+ client.getEmail() + "');";
 			rs = stmt.executeUpdate(sql);
 			stmt.close();
@@ -68,7 +72,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM cliente WHERE id = " + clientId + " LIMIT 1";
+			String sql = "SELECT * FROM client WHERE id = " + clientId + " LIMIT 1";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				int id = rs.getInt("id");
@@ -91,7 +95,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "UPDATE cliente SET nome = '" + client.getName() + "', email = '" + client.getEmail()
+			String sql = "UPDATE client SET nome = '" + client.getName() + "', email = '" + client.getEmail()
 					+ "' WHERE id = " + client.getId();
 			rs = stmt.executeUpdate(sql);
 			stmt.close();
@@ -108,7 +112,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "DELETE FROM cliente WHERE id = " + clientId;
+			String sql = "DELETE FROM client WHERE id = " + clientId;
 			rs = stmt.executeUpdate(sql);
 			stmt.close();
 			conn.close();
@@ -117,6 +121,22 @@ public class ClientDAO {
 		}
 		return rs;
 	}
+	
+	public boolean truncateClientsTable() {
+        boolean success = false;
+        try {
+            conn = connectToDatabase();
+            stmt = conn.createStatement();
+            String sql = "TRUNCATE TABLE client";
+            stmt.executeUpdate(sql);
+            success = true;
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return success;
+    }
 
 	private Connection connectToDatabase() {
 		try {
