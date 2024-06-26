@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+  "-// Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+  "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="index" namespace="/" extends="default">
+		<action name="index">
+			<result name="success">index.jsp</result>
+		</action>
+	</package>
+
+	<package name="default" extends="struts-default">
+		<action name="ListClients" class="actions.ListClientsAction">
+			<result name="success">/WEB-INF/list.jsp</result>
+		</action>
+		<action name="CreateClient" class="actions.CreateClientAction">
+			<result name="success">/WEB-INF/list.jsp</result>
+		</action>
+		<action name="GetClient" class="actions.GetClientAction">
+			<result name="success">/WEB-INF/update.jsp</result>
+		</action>
+		<action name="UpdateClient" class="actions.UpdateClientAction">
+			<result name="success">/WEB-INF/list.jsp</result>
+		</action>
+		<action name="DeleteClient" class="actions.DeleteClientAction">
+			<result name="success">/WEB-INF/list.jsp</result>
+		</action>
+		<action name="ShowClient">
+			<result name="success">/WEB-INF/create.jsp</result>
+		</action>
+	</package>
+</struts>
