@@ -34,7 +34,7 @@ public class ClientDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
-				String name = rs.getString("nome");
+				String name = rs.getString("name");
 				String email = rs.getString("email");
 				clients.add(new Client(id, name, email));
 			}
@@ -55,7 +55,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "INSERT INTO client (id, nome, email) VALUES (NULL, '" + client.getName() + "','"
+			String sql = "INSERT INTO client (id, name, email) VALUES (NULL, '" + client.getName() + "','"
 					+ client.getEmail() + "');";
 			rs = stmt.executeUpdate(sql);
 			stmt.close();
@@ -95,7 +95,7 @@ public class ClientDAO {
 		try {
 			conn = connectToDatabase();
 			stmt = conn.createStatement();
-			String sql = "UPDATE client SET nome = '" + client.getName() + "', email = '" + client.getEmail()
+			String sql = "UPDATE client SET name = '" + client.getName() + "', email = '" + client.getEmail()
 					+ "' WHERE id = " + client.getId();
 			rs = stmt.executeUpdate(sql);
 			stmt.close();
