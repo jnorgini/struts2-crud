@@ -35,9 +35,9 @@ public class ClientService {
 		int result = clientDAO.deleteClient(clientId);
 		return result > 0;
 	}
-	
-	 public boolean truncateClientsTable() {
-	        return clientDAO.truncateClientsTable();
-	    }
+
+	public boolean truncateClientsTable() {
+		return clientDAO.truncateClientsTable();
+	}
 
 }
