@@ -4,14 +4,19 @@ import java.util.ArrayList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import daos.ClientDAO;
 import entities.Client;
+import services.ClientService;
 
 public class DeleteClientAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private int clientId;
 	private ArrayList<Client> clients;
+	private ClientService clientService;
+
+	public DeleteClientAction() {
+		this.clientService = new ClientService();
+	}
 
 	public int getClientId() {
 		return clientId;
@@ -32,10 +37,9 @@ public class DeleteClientAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		System.out.println(clientId);
-		ClientDAO cDAO = new ClientDAO();
-		int resultado = cDAO.deleteClient(clientId);
-		if (resultado == 1) {
-			clients = cDAO.getClients();
+		boolean result = clientService.deleteClient(clientId);
+		if (result) {
+			clients = clientService.getClients();
 			return SUCCESS;
 		}
 		return ERROR;

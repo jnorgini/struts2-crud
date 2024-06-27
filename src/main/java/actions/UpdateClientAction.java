@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import daos.ClientDAO;
 import entities.Client;
+import services.ClientService;
 
 public class UpdateClientAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
@@ -13,8 +13,12 @@ public class UpdateClientAction extends ActionSupport {
 	private int id;
 	private String name;
 	private String email;
-
 	private ArrayList<Client> clients;
+	private ClientService clientService;
+
+	public UpdateClientAction() {
+		this.clientService = new ClientService();
+	}
 
 	public int getId() {
 		return id;
@@ -50,11 +54,10 @@ public class UpdateClientAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		ClientDAO cDAO = new ClientDAO();
 		Client client = new Client(id, name, email);
-		int result = cDAO.updateClient(client);
-		if (result == 1) {
-			clients = cDAO.getClients();
+		boolean result = clientService.updateClient(client);
+		if (result) {
+			clients = clientService.getClients();
 			return SUCCESS;
 		}
 		return ERROR;

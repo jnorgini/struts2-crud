@@ -2,14 +2,19 @@ package actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import daos.ClientDAO;
 import entities.Client;
+import services.ClientService;
 
 public class GetClientAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private int clientId;
 	private Client client;
+	private ClientService clientService;
+
+	public GetClientAction() {
+		this.clientService = new ClientService();
+	}
 
 	public int getClientId() {
 		return clientId;
@@ -29,8 +34,7 @@ public class GetClientAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		ClientDAO cDAO = new ClientDAO();
-		client = cDAO.getClient(clientId);
+		client = clientService.getClient(clientId);
 		return SUCCESS;
 	}
 

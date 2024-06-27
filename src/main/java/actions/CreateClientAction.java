@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import daos.ClientDAO;
 import entities.Client;
+import services.ClientService;
 
 public class CreateClientAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String email;
-
 	private ArrayList<Client> clients;
+	private ClientService clientService;
+
+	public CreateClientAction() {
+		this.clientService = new ClientService();
+	}
 
 	public String getName() {
 		return name;
@@ -41,11 +45,10 @@ public class CreateClientAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		ClientDAO cDAO = new ClientDAO();
 		Client client = new Client(name, email);
-		int result = cDAO.createClient(client);
-		if (result == 1) {
-			clients = cDAO.getClients();
+		boolean result = clientService.createClient(client);
+		if (result) {
+			clients = clientService.getClients();
 			return SUCCESS;
 		}
 		return ERROR;
